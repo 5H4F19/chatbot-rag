@@ -153,3 +153,4 @@ Below are some Postman examples for interacting with the chatbot:
 
 English works fine for both trigger-flow-based and LLM based Q&A. To enable bangla Language support I alternate the embedding model from `all-MiniLM-L6-v2`
 to `csebuetnlp/banglishbert`. But still the accuracy did not increase. I tried to increase chunk size and relevent info grouping for better chunking. Though it seem to have a good effect but not quite.
+I have found the problem. The string match for Bangla language not working. I think resolving this will ensure the Bangla Q&A.
