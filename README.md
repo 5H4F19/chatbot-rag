@@ -21,13 +21,14 @@ Supports Bangla, English, and Banglish queries.
 - Python 3.10+
 - [Ollama](https://ollama.com/) installed and running (for local LLM)
 - Conda or venv for Python environment
-- (Recommended) Mac M1: use a small/quantized Ollama model (e.g., `mistral:7b-q4_K_M`)
+- (Recommended) Mac M1: use a small/quantized Ollama model (e.g., `phi3:Mini`)
+- This codebase uses `phi3:Mini`. If u wish to use any other models, you can just change it in `config.py`
 
 ### 2. Clone & Environment
 ```bash
 # Clone the repo
 # git clone <your-repo-url>
-cd chatbot-rag
+cd directory
 
 # Create and activate environment
 conda create -n chatbot-rag python=3.10 -y
@@ -52,7 +53,7 @@ python embed_company_info.py
 ### 5. Start Ollama (if not running)
 ```bash
 ollama serve &
-ollama pull mistral:7b-q4_K_M  # or another small model
+ollama pull phi3:mini  # or another small model
 ```
 
 ### 6. Run the API Server
@@ -137,3 +138,18 @@ curl -X POST http://127.0.0.1:8000/chat \
 - Push code to a GitHub repo.
 - Include this README.
 - Ensure all endpoints and logic match the project spec.
+
+## Postman Example
+
+Below are some Postman examples for interacting with the chatbot:
+
+1. ![Postman Request 1](example/ex1.png)
+2. ![Postman Request 2](example/ex2.png)
+3. ![Postman Request 3](example/ex3.png)
+
+
+
+# Discussion
+
+English works fine for both trigger-flow-based and LLM based Q&A. To enable bangla Language support I alternate the embedding model from `all-MiniLM-L6-v2`
+to `csebuetnlp/banglishbert`. But still the accuracy did not increase. I tried to increase chunk size and relevent info grouping for better chunking. Though it seem to have a good effect but not quite.

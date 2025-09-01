@@ -1,5 +1,6 @@
 import json
 import re
+import unicodedata
 
 class RuleBasedFlow:
     def __init__(self, flow_json='codeware_bot_flow.json'):
@@ -13,14 +14,19 @@ class RuleBasedFlow:
                 self.keyword_list.append((kw.lower(), trigger_id))
 
     def check_trigger(self, question):
-        question_lower = question.lower()
+        question_normalized = unicodedata.normalize('NFC', question.lower())
+        print(f"Normalized user question: '{question_normalized}'")
         for kw, trigger_id in self.keyword_list:
-            kw_lower = kw.lower()
-            if ' ' in kw_lower.strip():
-                if kw_lower in question_lower:
+            kw_normalized = unicodedata.normalize('NFC', kw.lower())
+            print(f"Checking normalized keyword: '{kw_normalized}' with trigger_id: '{trigger_id}'")
+            if ' ' in kw_normalized.strip():
+                if kw_normalized in question_normalized:
+                    print(f"Matched phrase: '{kw}' in question: '{question}'")
                     return trigger_id, kw
             else:
-                pattern = r'\b' + re.escape(kw_lower) + r'\b'
-                if re.search(pattern, question_lower):
+                pattern = r'\b' + re.escape(kw_normalized) + r'\b'
+                if re.search(pattern, question_normalized):
+                    print(f"Matched word: '{kw}' in question: '{question}'")
                     return trigger_id, kw
+        print(f"No match found for question: '{question}'")
         return None, None
