@@ -8,10 +8,11 @@ This file only wires the RuleBasedFlow and RAGService and exposes two endpoints:
 Ensure dependencies are installed before running the app.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from rule_based_flow import RuleBasedFlow
 from rag_service import RAGService
+import httpx
 
 
 app = FastAPI()
@@ -36,13 +37,22 @@ class ChatbotRequest(BaseModel):
 async def chat_endpoint(req: ChatRequest):
     trigger_id, matched_kw = rule_flow.check_trigger(req.question)
     if trigger_id:
-        # In production you'd POST to the external service here; we simulate it.
-        return {
-            "triggered": True,
-            "trigger_id": trigger_id,
-            "matched_keyword": matched_kw,
-            "answer": f"Rule-based flow triggered for keyword '{matched_kw}'. (Simulated external API call.)"
-        }
+        try:
+            # Call the external /chatbot API
+            async with httpx.AsyncClient() as client:
+                response = await client.post("http://localhost:8000/chatbot", json={
+                    "user_id": req.user_id,
+                    "trigger_id": trigger_id
+                })
+                response_data = response.json()
+            return {
+                "triggered": True,
+                "trigger_id": trigger_id,
+                "matched_keyword": matched_kw,
+                "answer": response_data.get("message", "External API call successful.")
+            }
+        except httpx.RequestError as e:
+            raise HTTPException(status_code=500, detail=f"Failed to call external API: {e}")
 
     answer, sources = rag_service.answer(req.question)
     return {
