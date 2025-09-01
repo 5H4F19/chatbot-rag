@@ -1,0 +1,8 @@
+Customers can pay their internet bills through:  
+- bKash  
+- Nagad  
+- Rocket  
+- Debit/Credit Cards  
+- Direct Bank Transfer  
+
+Bill payment reminders are sent via SMS and email. Late payment may result in temporary suspension of service.  

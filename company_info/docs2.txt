@@ -1,0 +1,18 @@
+CodeWare Broadband offers the following packages:  
+
+1. Basic Plan  
+   - Speed: 20 Mbps  
+   - Price: BDT 800/month  
+   - Includes 200 minutes talk time  
+
+2. Premium Plan  
+   - Speed: 50 Mbps  
+   - Price: BDT 1200/month  
+   - Includes 400 minutes talk time  
+
+3. Business Plan  
+   - Speed: 100 Mbps  
+   - Price: BDT 2500/month  
+   - Includes 800 minutes talk time  
+
+All packages come with unlimited data and free installation for new customers.  
